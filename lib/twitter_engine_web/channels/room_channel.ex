@@ -50,7 +50,7 @@ defmodule TwitterEngineWeb.RoomChannel do
   def handle_in("query:hashtag",payload,socket) do
     #list of tweetids for hashtag
     list = List.flatten(:ets.match(:tab_hashtag,{payload["hashtag"],:"$1"}))
-    result = Enum.map(list,fn(x)-> :ets.lookup_element(:tab_tweet,x,2)end)
+    result = Enum.map(list,fn(x)-> :ets.lookup_element(:tab_tweet,x,3)end)
     result = List.flatten(result)
     {:reply, {:ok,%{res: result}}, socket}
   end
@@ -58,7 +58,7 @@ defmodule TwitterEngineWeb.RoomChannel do
   def handle_in("query:mentions",payload,socket) do
     #list of tweetids for mention
     list = List.flatten(:ets.match(:tab_mentions,{payload["mention"],:"$1"}))
-    result = Enum.map(list,fn(x)-> :ets.lookup_element(:tab_tweet,x,2)end)
+    result = Enum.map(list,fn(x)-> :ets.lookup_element(:tab_tweet,x,3)end)
     result = List.flatten(result)
     {:reply,{:ok,%{res: result}}, socket}
   end

@@ -37,7 +37,7 @@ let tweetcount = 99999
 let messageInput = document.getElementById("NewTweet")
 messageInput.addEventListener("keypress", (e) => {
   if (e.keyCode == 13 && messageInput.value != "") {
-    let payload ={tweet: messageInput.value, num: 10, tweetcount: tweetcount}
+    let payload = {tweet: messageInput.value, num: 10, tweetcount: tweetcount}
     room.push("tweet:new", payload )
     tweetcount = tweetcount + 1
     messageInput.value = ""
@@ -47,9 +47,17 @@ messageInput.addEventListener("keypress", (e) => {
 let hashInput = document.getElementById("Qhashtag")
 hashInput.addEventListener("keypress", (e) => {
   if (e.keyCode == 13 && hashInput.value != "") {
-    let payload = new Map({hashtag: hashInput.value})
-    room.push("query:hashtag", payload )
+    let payload = {hashtag: hashInput.value}
+    room.push("query:hashtag", payload ).receive("ok", (res) => alert(res.res) )
     hashInput.value = ""
+  }
+})
+let mentInput = document.getElementById("Qhashtag")
+mentInput.addEventListener("keypress", (e) => {
+  if (e.keyCode == 13 && mentInput.value != "") {
+    let payload = {mention: mentInput.value}
+    room.push("query:mentions", payload ).receive("ok", (res) => alert(res.res) )
+    mentInput.value = ""
   }
 })
 
@@ -81,3 +89,4 @@ let renderMessage = (payload) => {
 }
 
 room.on("tweet:incoming", payload => renderMessage(payload))
+
