@@ -29,13 +29,37 @@ socket.connect()
 let room = socket.channel("room:user10", {})
 room.join()
 
-/*let messageInput = document.getElementById("NewMessage")
+let tweetcount = 99999
+
+let messageInput = document.getElementById("NewTweet")
 messageInput.addEventListener("keypress", (e) => {
   if (e.keyCode == 13 && messageInput.value != "") {
-    room.push("message:new", messageInput.value)
+    payload = new Map({tweet: messageInput.value, num: 10, tweetcount: tweetcount})
+    room.push("tweet:new", payload )
+    tweetcount = tweetcount + 1
     messageInput.value = ""
   }
-})*/
+})
+
+let hashInput = document.getElementById("Qhashtag")
+hashInput.addEventListener("keypress", (e) => {
+  if (e.keyCode == 13 && hashInput.value != "") {
+    payload = new Map({hashtag: hashInput.value})
+    room.push("query:hashtag", payload )
+    hashInput.value = ""
+  }
+})
+
+let subInput = document.getElementById("Subscribe")
+subInput.addEventListener("keypress", (e) => {
+  if (e.keyCode == 13 && subInput.value != "") {
+    let subroom = socket.channel("room:user"+subInput.value, {})
+    subroom.join()
+    alert("Subscribed to user"+subInput.value)
+    subInput.value = ""
+  }
+})
+
 
 let tweetList = document.getElementById("TweetList")
 
