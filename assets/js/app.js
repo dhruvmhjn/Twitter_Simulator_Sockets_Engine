@@ -37,7 +37,7 @@ let tweetcount = 99999
 let messageInput = document.getElementById("NewTweet")
 messageInput.addEventListener("keypress", (e) => {
   if (e.keyCode == 13 && messageInput.value != "") {
-    let payload = {tweet: messageInput.value, num: 10, tweetcount: tweetcount}
+    let payload = {tweet: messageInput.value, num: 1, tweetcount: tweetcount}
     room.push("tweet:new", payload )
     tweetcount = tweetcount + 1
     messageInput.value = ""
@@ -52,7 +52,7 @@ hashInput.addEventListener("keypress", (e) => {
     hashInput.value = ""
   }
 })
-let mentInput = document.getElementById("Qhashtag")
+let mentInput = document.getElementById("Qmentions")
 mentInput.addEventListener("keypress", (e) => {
   if (e.keyCode == 13 && mentInput.value != "") {
     let payload = {mention: mentInput.value}
