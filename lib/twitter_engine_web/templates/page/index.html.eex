@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-md-12 alert alert-info">
     Hello, <span id="User"><%= @conn.params["user"] %></span>! 
-    Instructions:
+   </br>Think of this as a sneak peek into the simulation. Instructions:
    </br>1.	<b>Recommended:</b> Subscribe to users (other than default, i.e. user 1) before the simulation is started, to receive their tweets.
    </br>2.	Run the Simulation. When the simulation is running (the tweet feeds is refreshing), user can try connect/disconnect button.
    </br>3.	User can try querying for hashtags or mentions during or after the simulation.
