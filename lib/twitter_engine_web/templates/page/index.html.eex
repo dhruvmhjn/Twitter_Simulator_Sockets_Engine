@@ -1,14 +1,14 @@
 <div class="row">
   <div class="col-md-12 alert alert-info">
     Hello, <span id="User"><%= @conn.params["user"] %></span>! 
-    Instructions
-   1.	<b>Recommended:</b> Subscribe to users (other than default, i.e. user 1) before the simulation is started, to receive their tweets.
-   2.	When the simulation is running (the tweet feeds is refreshing, user can try connect/disconnect button).
-   3.	User can try querying for hashtags or mentions during or after the simulation.
-   4.	Format for hashtags: #hashtag<random number> like #hastag10 or #hashtag555 (look in the feed for ones that actually exist)
-   5.	Format for mentions: @user<user number> like @user15 or @user13 (look in the feed for ones that actually exist)
-   6.	Tweet when the simulation is running, tweet will show up in the feed. (Use Ctrl + F if it scrolls to fast to see) 
-   7.	To tweet or Query, input the exact text and press enter. Pls don’t enter any extra spaces.
+    Instructions:
+   </br>1.	<b>Recommended:</b> Subscribe to users (other than default, i.e. user 1) before the simulation is started, to receive their tweets.
+   </br>2.	Run the Simulation. When the simulation is running (the tweet feeds is refreshing), user can try connect/disconnect button.
+   </br>3.	User can try querying for hashtags or mentions during or after the simulation.
+   </br>4.	Format for hashtags: #hashtag&lt;random number&gt; like #hastag10 or #hashtag555 (look in the feed for ones that actually exist)
+   </br>5.	Format for mentions: @user&lt;user number&gt; like @user15 or @user13 (look in the feed for ones that actually exist)
+   </br>6.	Tweet when the simulation is running, tweet will show up in the feed. (Use Ctrl + F if it scrolls to fast to see) 
+   </br><b>7.	To tweet or Query, input the exact text and press enter. Pls don’t enter any extra spaces.</b>
   </div>
   <div class="col-md-8" style="overflow:scroll; height:400px;">
     <h3>Tweet Feed</h3>
