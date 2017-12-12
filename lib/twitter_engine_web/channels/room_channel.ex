@@ -22,7 +22,7 @@ defmodule TwitterEngineWeb.RoomChannel do
   end
   
   def handle_in("tweet:new", payload, socket) do
-    IO.puts "received tweet from client"
+    #IO.puts "received tweet from client"
     #IO.inspect payload # must contain client num, tweet, tweetcount
     #send tweet to followers
     
@@ -76,6 +76,6 @@ defmodule TwitterEngineWeb.RoomChannel do
       write_concurrency: true])
       :ets.new(:tab_mentions, [:set, :public, :named_table, read_concurrency: true,
         write_concurrency: true])
-    IO.puts("CREATED TABLES+++++++++++++++++++++")
+    IO.puts("ALL IO  AT CLIENT END")
   end
 end
