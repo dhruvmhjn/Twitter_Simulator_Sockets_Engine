@@ -18,6 +18,13 @@ defmodule TwitterEngineWeb.RoomChannel do
     #generate tweet id = usernum + "T" + tweetid
     tweetid = Integer.to_string(payload["num"])<>"T"<>Integer.to_string(payload["tweetcount"])
     :ets.insert_new(:tab_tweet, {tweetid,payload["num"],payload["tweet"]})
+    if (:ets.lookup_element(:msg_queue,99999,2) == 1) do
+      sublist = :ets.lookup_element(:msg_queue,99999,3)
+      if Enum.member?(sublist,payload["num"])do
+        queue = :ets.lookup_element(:msg_queue,99999,4)
+        :ets.update_element(:msg_queue,99999,{4,queue++[tweetid]})        
+      end
+    end
     hashregex = ~r/\#\w*/
     tags = List.flatten(Regex.scan(hashregex,payload["tweet"]))
     Enum.map(tags, fn(x)-> if :ets.insert_new(:tab_hashtag,{x,[tweetid]}) == false do
@@ -52,15 +59,19 @@ defmodule TwitterEngineWeb.RoomChannel do
   end
 
   def handle_in("disconnect",_payload,socket)do
-    IO.puts "trying to disconnect"
     :ets.update_element(:msg_queue,99999,{2,1})
     {:noreply, socket}
   end
 
   def handle_in("reconnect",_payload,socket)do
-    IO.puts "trying to reconnect"
     :ets.update_element(:msg_queue,99999,{2,0})
-    queue = :ets.lookup_element(:msg_queue,99999,3)
+    tweetidlist = :ets.lookup_element(:msg_queue,99999,4)
+    IO.puts "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+    IO.inspect tweetidlist
+    queue = List.flatten(Enum.map(tweetidlist, fn(tid)-> :ets.lookup(:tab_tweet,tid) end))
+    queue = Enum.map(queue, fn(tup)->Tuple.to_list(tup) end)
+    IO.inspect queue
+    :ets.update_element(:msg_queue,99999,{4,[]})
     {:reply, {:ok, %{dump: queue}}, socket}
   end
     

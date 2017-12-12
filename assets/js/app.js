@@ -79,13 +79,24 @@ subInput.addEventListener("keypress", (e) => {
 let tweetList = document.getElementById("TweetList")
 
 let renderMessage = (payload) => {
-  console.log(payload)
+  if (connectButton.innerHTML == "Disconnect!")
+  {
   let messageElement = document.createElement("li")
   messageElement.innerHTML = `
-    <p>${payload.tweet} : <i>user${payload.source}</i></p>
+    <p>${payload.tweet}</br><i>user${payload.source}</i></p>
   `
   tweetList.appendChild(messageElement)
-  tweetList.scrollTop = tweetList.scrollHeight;
+  messageElement.scrollIntoView()
+  }
+}
+
+let renderDump = (dump) =>{
+  
+  for (var i = 0; i < dump.length; i++) {
+      let payload = {tweet: dump[i][2], source: dump[i][1]}
+      console.log(payload)
+      renderMessage(payload)  
+  }
 }
 
 let connectButton = document.getElementById("Bconnect")
@@ -97,7 +108,7 @@ function connectfunc ()
   {
     connectButton.innerHTML = "Disconnect!"
     alert("You are now Connected")
-    room.push("reconnect",{}).receive("ok", (result) => alert(result.dump) )
+    room.push("reconnect",{}).receive("ok", (result) => renderDump(result.dump) )
 
   }
   else if (connectButton.innerHTML == "Disconnect!")
