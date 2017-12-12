@@ -14,7 +14,7 @@ defmodule TwitterEngineWeb.RoomChannel do
 
   def handle_in("tweet:new", payload, socket) do
     #IO.puts "got a tweet from user #{payload["num"]} :::::: #{payload["tweet"]}"
-    broadcast_from! socket, "tweet:incoming", %{tweet: payload["tweet"], source: payload["num"]}
+    broadcast! socket, "tweet:incoming", %{tweet: payload["tweet"], source: payload["num"]}
     #generate tweet id = usernum + "T" + tweetid
     tweetid = Integer.to_string(payload["num"])<>"T"<>Integer.to_string(payload["tweetcount"])
     :ets.insert_new(:tab_tweet, {tweetid,payload["num"],payload["tweet"]})
@@ -44,6 +44,25 @@ defmodule TwitterEngineWeb.RoomChannel do
     result = List.flatten(result)
     {:reply,{:ok,%{res: result}}, socket}
   end
+
+  def handle_in("subscribe",payload,socket) do
+    list = :ets.lookup_element(:msg_queue,99999,3)
+    :ets.update_element(:msg_queue,99999,{3,list++[payload["to"]]})
+    {:noreply, socket}
+  end
+
+  def handle_in("disconnect",_payload,socket)do
+    IO.puts "trying to disconnect"
+    :ets.update_element(:msg_queue,99999,{2,1})
+    {:noreply, socket}
+  end
+
+  def handle_in("reconnect",_payload,socket)do
+    IO.puts "trying to reconnect"
+    :ets.update_element(:msg_queue,99999,{2,0})
+    queue = :ets.lookup_element(:msg_queue,99999,3)
+    {:reply, {:ok, %{dump: queue}}, socket}
+  end
     
   def handle_in("simulator:end",payload,socket) do
     #IO.puts "All requests served. Server terminating.."
@@ -58,6 +77,9 @@ defmodule TwitterEngineWeb.RoomChannel do
       write_concurrency: true])
     :ets.new(:tab_mentions, [:set, :public, :named_table, read_concurrency: true,
       write_concurrency: true])
+    :ets.new(:msg_queue, [:set, :public, :named_table, read_concurrency: true,
+      write_concurrency: true])
+    :ets.insert_new(:msg_queue, {99999,0,[1],[]})
     IO.puts("ALL IO  AT CLIENT END")
   end
 end

@@ -21,7 +21,7 @@ import {Socket} from "phoenix";
 // import socket from "./socket"
 
 // Socket
-document.getElementById("User").innerText = "DUMMY USER"
+document.getElementById("User").innerText = "USER99999"
 let socket = new Socket("/socket", {params: {}})
 socket.connect()
 
@@ -37,7 +37,7 @@ let tweetcount = 99999
 let messageInput = document.getElementById("NewTweet")
 messageInput.addEventListener("keypress", (e) => {
   if (e.keyCode == 13 && messageInput.value != "") {
-    let payload = {tweet: messageInput.value, num: 1, tweetcount: tweetcount}
+    let payload = {tweet: messageInput.value, num: 99999, tweetcount: tweetcount}
     room.push("tweet:new", payload )
     tweetcount = tweetcount + 1
     messageInput.value = ""
@@ -69,6 +69,7 @@ subInput.addEventListener("keypress", (e) => {
     rooms[roomscount].join()
     rooms[roomscount].on("tweet:incoming", payload => renderMessage(payload))
     roomscount = roomscount +1
+    room.push("subscribe",{to: subInput.value})
     alert("Subscribed to user"+subInput.value)
     subInput.value = ""
   }
@@ -81,12 +82,31 @@ let renderMessage = (payload) => {
   console.log(payload)
   let messageElement = document.createElement("li")
   messageElement.innerHTML = `
-    <p>${payload.tweet}</p>
-    <i>user${payload.source}</i>
+    <p>${payload.tweet} : <i>user${payload.source}</i></p>
   `
   tweetList.appendChild(messageElement)
   tweetList.scrollTop = tweetList.scrollHeight;
 }
+
+let connectButton = document.getElementById("Bconnect")
+connectButton.addEventListener("click", connectfunc);
+
+function connectfunc ()
+{
+  if (connectButton.innerHTML == "Connect!")
+  {
+    connectButton.innerHTML = "Disconnect!"
+    alert("You are now Connected")
+    room.push("reconnect",{}).receive("ok", (result) => alert(result.dump) )
+
+  }
+  else if (connectButton.innerHTML == "Disconnect!")
+  {
+    connectButton.innerHTML = "Connect!"
+    alert("You are now Disconnected")
+    room.push("disconnect",{})
+  }
+} 
 
 room.on("tweet:incoming", payload => renderMessage(payload))
 

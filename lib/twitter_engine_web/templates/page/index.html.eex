@@ -1,9 +1,10 @@
 <div class="row">
   <div class="col-md-12 alert alert-info">
-    Hello, <span id="User"><%= @conn.params["user"] %></span>!
+    Hello, <span id="User"><%= @conn.params["user"] %></span>! 
+    By default you are subscribed to user1. To receive tweets from other users
   </div>
-  <div class="col-md-8">
-    <h2>Tweet Feed</h2>
+  <div class="col-md-8" style="overflow:scroll; height:400px;">
+    <h3>Tweet Feed</h3>
     <ul id="TweetList" class="list-unstyled"></ul>
   </div>
   <div  class="col-md-4">
@@ -15,5 +16,7 @@
     <input type="text" id="Qmentions" placeholder="Type and press enter..." class="form-control">
     <h4>Subscribe To </h4>
     <input type="text" id="Subscribe" placeholder="Type and press enter..." class="form-control">
+    </br>
+    <button type="button" id="Bconnect">Disconnect!</button>
   </div>
 </div>
