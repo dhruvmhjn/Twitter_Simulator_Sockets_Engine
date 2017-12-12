@@ -21,12 +21,15 @@ import {Socket} from "phoenix";
 // import socket from "./socket"
 
 // Socket
-document.getElementById("User").innerText = "USER10"
+document.getElementById("User").innerText = "DUMMY USER"
 let socket = new Socket("/socket", {params: {}})
 socket.connect()
 
 // Channels
-let room = socket.channel("room:user10", {})
+let rooms = []
+let roomscount = 0
+
+let room = socket.channel("room:user1", {})
 room.join()
 
 let tweetcount = 99999
@@ -34,7 +37,7 @@ let tweetcount = 99999
 let messageInput = document.getElementById("NewTweet")
 messageInput.addEventListener("keypress", (e) => {
   if (e.keyCode == 13 && messageInput.value != "") {
-    payload = new Map({tweet: messageInput.value, num: 10, tweetcount: tweetcount})
+    let payload ={tweet: messageInput.value, num: 10, tweetcount: tweetcount}
     room.push("tweet:new", payload )
     tweetcount = tweetcount + 1
     messageInput.value = ""
@@ -44,7 +47,7 @@ messageInput.addEventListener("keypress", (e) => {
 let hashInput = document.getElementById("Qhashtag")
 hashInput.addEventListener("keypress", (e) => {
   if (e.keyCode == 13 && hashInput.value != "") {
-    payload = new Map({hashtag: hashInput.value})
+    let payload = new Map({hashtag: hashInput.value})
     room.push("query:hashtag", payload )
     hashInput.value = ""
   }
@@ -54,7 +57,10 @@ let subInput = document.getElementById("Subscribe")
 subInput.addEventListener("keypress", (e) => {
   if (e.keyCode == 13 && subInput.value != "") {
     let subroom = socket.channel("room:user"+subInput.value, {})
-    subroom.join()
+    rooms.push(subroom)    
+    rooms[roomscount].join()
+    rooms[roomscount].on("tweet:incoming", payload => renderMessage(payload))
+    roomscount = roomscount +1
     alert("Subscribed to user"+subInput.value)
     subInput.value = ""
   }
@@ -64,10 +70,11 @@ subInput.addEventListener("keypress", (e) => {
 let tweetList = document.getElementById("TweetList")
 
 let renderMessage = (payload) => {
+  console.log(payload)
   let messageElement = document.createElement("li")
   messageElement.innerHTML = `
     <p>${payload.tweet}</p>
-    <i>${payload.user}</i>
+    <i>user${payload.source}</i>
   `
   tweetList.appendChild(messageElement)
   tweetList.scrollTop = tweetList.scrollHeight;

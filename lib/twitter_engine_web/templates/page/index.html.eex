@@ -11,9 +11,9 @@
     <input type="text" id="NewTweet" placeholder="Type and press enter..." class="form-control">
     <h4>Query hashtag </h4>
     <input type="text" id="Qhashtag" placeholder="Type and press enter..." class="form-control">
+    <h4>Query Mentions </h4>
+    <input type="text" id="Qmentions" placeholder="Type and press enter..." class="form-control">
     <h4>Subscribe To </h4>
     <input type="text" id="Subscribe" placeholder="Type and press enter..." class="form-control">
-    <br/>
-    <button type="button" id="Mentions"> Query My Mentions</button>
   </div>
 </div>

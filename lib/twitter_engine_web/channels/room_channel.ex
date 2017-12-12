@@ -25,8 +25,8 @@ defmodule TwitterEngineWeb.RoomChannel do
     #IO.puts "received tweet from client"
     #IO.inspect payload # must contain client num, tweet, tweetcount
     #send tweet to followers
-    
-    broadcast_from! socket, "tweet:incoming", %{tweet: payload["tweet"], user: payload["num"]}
+    IO.puts "got a tweet from user #{payload["num"]} :::::: #{payload["tweet"]}"
+    broadcast_from! socket, "tweet:incoming", %{tweet: payload["tweet"], source: payload["num"]}
     #generate tweet id = usernum + "T" + tweetid
     tweetid = Integer.to_string(payload["num"])<>"T"<>Integer.to_string(payload["tweetcount"])
     
