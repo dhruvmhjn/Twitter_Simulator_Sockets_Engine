@@ -37,15 +37,16 @@ messageInput.addEventListener("keypress", (e) => {
   }
 })*/
 
-let messageList = document.getElementById("MessageList")
+let tweetList = document.getElementById("TweetList")
 
-let renderMessage = (tweet) => {
+let renderMessage = (payload) => {
   let messageElement = document.createElement("li")
   messageElement.innerHTML = `
-    <p>${tweet}</p>
+    <p>${payload.tweet}</p>
+    <i>${payload.user}</i>
   `
-  messageList.appendChild(messageElement)
-  messageList.scrollTop = messageList.scrollHeight;
+  tweetList.appendChild(messageElement)
+  tweetList.scrollTop = tweetList.scrollHeight;
 }
 
-room.on("tweet:incoming", payload => renderMessage(payload.tweet))
+room.on("tweet:incoming", payload => renderMessage(payload))

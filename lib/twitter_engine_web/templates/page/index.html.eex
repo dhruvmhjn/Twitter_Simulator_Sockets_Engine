@@ -3,14 +3,17 @@
     Hello, <span id="User"><%= @conn.params["user"] %></span>!
   </div>
   <div class="col-md-8">
-    <h2>Messages</h2>
-    <input type="text" id="NewMessage" placeholder="Type and press enter..." class="form-control">
-    <ul id="MessageList" class="list-unstyled"></ul>
+    <h2>Tweet Feed</h2>
+    <ul id="TweetList" class="list-unstyled"></ul>
   </div>
   <div  class="col-md-4">
-    <h2>Who’s Online</h2>
-    <ul id="UserList" class="list-unstyled">
-      <li>Loading online users...</li>
-    </ul>
+    <h4>Create Tweet</h4>
+    <input type="text" id="NewTweet" placeholder="Type and press enter..." class="form-control">
+    <h4>Query hashtag </h4>
+    <input type="text" id="Qhashtag" placeholder="Type and press enter..." class="form-control">
+    <h4>Subscribe To </h4>
+    <input type="text" id="Subscribe" placeholder="Type and press enter..." class="form-control">
+    <br/>
+    <button type="button" id="Mentions"> Query Mentions</button>
   </div>
 </div>
